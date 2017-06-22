@@ -16,7 +16,7 @@
 
 </head>
 
-<body>
+<body onload="onloadIndexPage()" class="pace-done">
 
 <div id="wrapper">
 
@@ -37,7 +37,7 @@
                     </div>
                 </li>
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
+                    <a href="javascript:void(0);" attr-href="minor"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
                 </li>
                 <li>
                     <a href="javascript:void(0);" attr-href="minor"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
@@ -72,14 +72,15 @@
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="text-center m-t-lg">
-                        <h1>
-                            Welcome in INSPINIA Static SeedProject
-                        </h1>
-                        <small>
-                            It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
-                        </small>
-                    </div>
+                    <!--<div class="text-center m-t-lg">-->
+                        <!--<h1>-->
+                            <!--Welcome in INSPINIA Static SeedProject-->
+                        <!--</h1>-->
+                        <!--<small>-->
+                            <!--It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.-->
+                        <!--</small>-->
+                    <!--</div>-->
+                    <div class="loadPage col-lg-12"></div>
                 </div>
             </div>
 			<div class="loadPage"></div>
@@ -111,25 +112,32 @@
 
 </html>
 <script>
-	$(function(){
-		$("#side-menu li").click(function(){
-		console.log("8");
-			var attr=$(this).find("a").attr("attr-href");
-			console.log(attr);
-			//$(".loadPage").load(attr+".html");
-			$.ajax({
-				url: attr+".html",
-				//data:data,
-				type: 'GET',
-				datatype:'html',
-				cache: false,
-				success: function(){
-					console.log(0);
-				},
-				error:function(){
-					console.log(1);	
-				}
-				});
-		});
-	});
+	function keepActive(){
+        $("#side-menu").accordion({
+            speed: 200
+        });
+        $("#side-menu li").bind("click",function(){
+            var attr=$(this).find("a").attr("attr-href");
+            $(".loadPage").load("../page/"+attr+".html");
+            return false;
+        });
+	}
+
+
+	function onloadIndexPage(){
+	    $(".loadPage").load("../page/minor.html");
+	    <!--$.ajax({-->
+				<!--url: "menuConfigRest",-->
+				<!--type: 'GET',-->
+				<!--dataType:'json',-->
+				<!--cache: false,-->
+				<!--success: function(data){-->
+				   <!--OnloadInitMenu(data,"side-menu");-->
+                   <!--keepActive();-->
+				<!--},-->
+				<!--error:function(){-->
+					<!--console.log(" getMenuList error!");-->
+				<!--}-->
+        <!--});-->
+	}
 </script>

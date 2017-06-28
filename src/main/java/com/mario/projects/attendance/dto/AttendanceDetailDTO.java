@@ -9,7 +9,7 @@ import java.time.LocalTime;
  * Created by mario1oreo on 2017/6/26 22:45.
  */
 @Data
-public class AttendanceDetail {
+public class AttendanceDetailDTO {
 
     private Integer id;
     private String employeeId;

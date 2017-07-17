@@ -20,6 +20,7 @@
 
 <div id="wrapper">
 
+
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
@@ -40,7 +41,10 @@
                     <a href="javascript:void(0);" attr-href="minor"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" attr-href="minor"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
+                    <a href="javascript:void(0);" attr-href="currentMonth"><i class="fa fa-th-large"></i> <span class="nav-label">当月异常考勤</span> </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" attr-href="currentMonthTotal"><i class="fa fa-th-large"></i> <span class="nav-label">当月异常考勤汇总</span> </a>
                 </li>
             </ul>
 
@@ -71,7 +75,6 @@
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
-                <div class="col-lg-12">
                     <!--<div class="text-center m-t-lg">-->
                         <!--<h1>-->
                             <!--Welcome in INSPINIA Static SeedProject-->
@@ -80,10 +83,8 @@
                             <!--It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.-->
                         <!--</small>-->
                     <!--</div>-->
-                    <div class="loadPage col-lg-12"></div>
-                </div>
+                <div class="loadPage col-lg-12"></div>
             </div>
-			<div class="loadPage"></div>
 		</div>
         <div class="footer">
             <div class="pull-right">
@@ -100,6 +101,7 @@
 <!-- Mainly scripts -->
 <script src="js/jquery-2.1.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/menu/accordion.js"></script>
 <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -107,10 +109,6 @@
 <script src="js/inspinia.js"></script>
 <script src="js/plugins/pace/pace.min.js"></script>
 
-
-</body>
-
-</html>
 <script>
 	function keepActive(){
         $("#side-menu").accordion({
@@ -118,6 +116,7 @@
         });
         $("#side-menu li").bind("click",function(){
             var attr=$(this).find("a").attr("attr-href");
+            console.log("click menu:"+ attr);
             $(".loadPage").load("../page/"+attr+".html");
             return false;
         });
@@ -126,6 +125,7 @@
 
 	function onloadIndexPage(){
 	    $(".loadPage").load("../page/minor.html");
+	    keepActive();
 	    <!--$.ajax({-->
 				<!--url: "menuConfigRest",-->
 				<!--type: 'GET',-->
@@ -141,3 +141,8 @@
         <!--});-->
 	}
 </script>
+
+
+</body>
+
+</html>

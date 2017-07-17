@@ -186,12 +186,12 @@ public class ExcelHelper {
                     dayDetailDTO.setOnAttendanceTime(LocalTime.parse(getValue(onAttendanceTime), DateHelper.formatter2));
                 }
 
-                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("还未打卡") ? "3" : getValue(onAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("还未打卡")|| getValue(onAttendanceStatus).contains("缺卡") ? "3" : getValue(onAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
                 if (StringUtils.isNotEmpty(getValue(offAttendanceTime))) {
 
                     dayDetailDTO.setOffAttendanceTime(LocalTime.parse(getValue(offAttendanceTime).contains("次日 ")?getValue(offAttendanceTime).replace("次日 ",""):getValue(offAttendanceTime), DateHelper.formatter2));
                 }
-                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(offAttendanceStatus).contains("还未打卡") ? "3" : getValue(offAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(offAttendanceStatus).contains("还未打卡")||getValue(offAttendanceStatus).contains("缺卡") ? "3" : getValue(offAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
 //                System.out.println(dayDetailDTO.toString());
                 list.add(dayDetailDTO);
             }

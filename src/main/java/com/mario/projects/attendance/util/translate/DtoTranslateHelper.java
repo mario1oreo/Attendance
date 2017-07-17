@@ -2,6 +2,7 @@ package com.mario.projects.attendance.util.translate;
 
 import com.mario.projects.attendance.dto.AttendanceDetailDTO;
 import com.mario.projects.attendance.dto.DayDetailDTO;
+import com.mario.projects.attendance.dto.EmployeeInfoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +35,13 @@ public class DtoTranslateHelper {
         attenDetailOff.setIsHoliday(dayDetailDTO.getIsHoliday());
         attenDetailList.add(attenDetailOff);
         return attenDetailList;
+    }
+
+    public static EmployeeInfoDTO dayDatailTOEmployeeInfo(DayDetailDTO dayDetailDTO) {
+        EmployeeInfoDTO employeeInfoDTO = new EmployeeInfoDTO();
+        employeeInfoDTO.setName(dayDetailDTO.getName());
+        employeeInfoDTO.setDepartment(dayDetailDTO.getDepartment());
+        employeeInfoDTO.setEmployeeId(dayDetailDTO.getEmployeeId());
+        return employeeInfoDTO;
     }
 }

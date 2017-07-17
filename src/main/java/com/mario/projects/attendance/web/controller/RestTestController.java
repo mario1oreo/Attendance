@@ -3,11 +3,14 @@ package com.mario.projects.attendance.web.controller;
 import com.mario.projects.attendance.dao.AttendanceDetailDAO;
 import com.mario.projects.attendance.dto.AttendanceDetailDTO;
 import com.mario.projects.attendance.dto.DayDetailDTO;
+import com.mario.projects.attendance.dto.ReportDetailDTO;
 import com.mario.projects.attendance.service.AttendanceDetailService;
+import com.mario.projects.attendance.service.ShowReportService;
 import com.mario.projects.attendance.util.file.ExcelHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +25,11 @@ import java.util.List;
 @Slf4j
 public class RestTestController {
 
-
     @Autowired
     private AttendanceDetailService attendanceDetailServiceImpl;
+
+    @Autowired
+    private ShowReportService showReportServiceImpl;
 
     @RequestMapping("/atten")
     @ResponseBody
@@ -57,5 +62,26 @@ public class RestTestController {
         }
     }
 
+    @RequestMapping("/showExceprtionAttendanceDetail")
+    @ResponseBody
+    public List<ReportDetailDTO> showExceprtionAttendanceDetail(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate) {
+        log.info("entry showExceprtionAttendanceDetail!");
+
+        List<ReportDetailDTO> result = showReportServiceImpl.listExceptionAttendance(startDate, endDate);
+        log.info("异常记录共计：{}",result.size());
+        log.info("exit showExceprtionAttendanceDetail!");
+        return result;
+    }
+
+    @RequestMapping("/listTotalReport")
+    @ResponseBody
+    public List<ReportDetailDTO> listTotalReport(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate) {
+        log.info("entry listTotalReport!");
+
+        List<ReportDetailDTO> result = showReportServiceImpl.listTotalReport(startDate, endDate);
+        log.info("异常记录共计：{}",result.size());
+        log.info("exit listTotalReport!");
+        return result;
+    }
 
 }

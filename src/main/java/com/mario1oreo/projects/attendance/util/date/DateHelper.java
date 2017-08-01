@@ -12,7 +12,8 @@ public class DateHelper {
 
     public static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static final DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
-    public static final DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yy-MM-dd");
+    public static final DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("HH:mm");
 
 
 

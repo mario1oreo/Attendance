@@ -1,0 +1,55 @@
+
+
+    <div id="page-wrapper" class="gray-bg">
+        <table class="table table-bordered" id="showReport">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>部门名称</th>
+                <th>员工姓名</th>
+                <th>考勤日期</th>
+                <th>打卡时间段</th>
+                <th>打卡状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    onloadIndexPage();
+});
+function onloadIndexPage(){
+        console.log("onloadIndexPage!!!!");
+        $.ajax({
+             url: 'rest/showExceprtionAttendanceDetail',
+             type: 'POST',
+             dataType: 'json',
+             cache: false,
+             <!--data:{"data":formData},-->
+             success: function(data) {
+
+                 console.log("return succeed!");
+                 if (jQuery.isEmptyObject(data)) {
+                    return;
+                 }
+                 console.log("showExceprtionAttendanceDetail :"+JSON.stringify(data));
+                 var trHtml = '';
+                 $.each(data, function(index) {
+                    trHtml += '<tr>';
+                    trHtml += '<td>'+index+'</td>';
+                    trHtml += '<td>'+data[index].department+'</td>';
+                    trHtml += '<td>'+data[index].name+'</td>';
+                    trHtml += '<td>'+data[index].date+'</td>';
+                    trHtml += '<td>'+data[index].noon+'</td>';
+                    trHtml += '<td>'+data[index].status+'</td></tr>';
+                });
+                $('#showReport tbody').append(trHtml);
+             },
+             error: function() {
+                 //console.log(" showExceprtionAttendanceDetail error!");
+             }
+        });
+    };
+</script>

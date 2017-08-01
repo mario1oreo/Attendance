@@ -29,6 +29,7 @@ public class ShowReportServiceImpl implements ShowReportService {
     public List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
             startDate = DF_YYYY_MM.format(LocalDate.now()) + "-01";
+//            startDate = "2017-06-01";
         }
         if (StringUtils.isBlank(endDate) || StringUtils.isBlank(endDate.trim())) {
             endDate = DF_YYYY_MM_DD.format(LocalDate.now());
@@ -40,6 +41,7 @@ public class ShowReportServiceImpl implements ShowReportService {
     public List<ReportDetailDTO> listTotalReport(String startDate, String endDate) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
             startDate = DF_YYYY_MM.format(LocalDate.now()) + "-01";
+//            startDate = "2017-06-01";
         }
         if (StringUtils.isBlank(endDate) || StringUtils.isBlank(endDate.trim())) {
             endDate = DF_YYYY_MM_DD.format(LocalDate.now());

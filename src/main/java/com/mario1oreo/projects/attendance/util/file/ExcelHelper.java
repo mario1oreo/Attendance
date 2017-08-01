@@ -18,7 +18,9 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mario1oreo on 2017/6/23 3:08.
@@ -73,12 +75,13 @@ public class ExcelHelper {
 
     public static List<DayDetailDTO> readXlsx(String path) throws IOException {
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:excel/" + path));
+        Map<String, Boolean> holiday = new HashMap<>();
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(is);
         DayDetailDTO dayDetailDTO = null;
         List<DayDetailDTO> list = new ArrayList<>();
-        XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(2);
+        XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(1);
         // Read the Row
-        for (int rowNum = 1; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
+        for (int rowNum = 4; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
             XSSFRow xssfRow = xssfSheet.getRow(rowNum);
             if (xssfRow != null) {
                 dayDetailDTO = new DayDetailDTO();
@@ -88,33 +91,38 @@ public class ExcelHelper {
                 log.info("department = " + department);
                 XSSFCell employeeId = xssfRow.getCell(2);
                 log.info("employeeId = " + employeeId);
-                XSSFCell date = xssfRow.getCell(3);
+                XSSFCell date = xssfRow.getCell(5);
                 log.info("date = " + date);
-                XSSFCell isHoliday = xssfRow.getCell(4);
+                XSSFCell isHoliday = xssfRow.getCell(6);
                 log.info("isHoliday = " + isHoliday);
-                XSSFCell onAttendanceTime = xssfRow.getCell(5);
+                XSSFCell onAttendanceTime = xssfRow.getCell(7);
                 log.info("onAttendanceTime = " + onAttendanceTime);
-                XSSFCell onAttendanceStatus = xssfRow.getCell(6);
+                XSSFCell onAttendanceStatus = xssfRow.getCell(8);
                 log.info("onAttendanceStatus = " + onAttendanceStatus);
-                XSSFCell offAttendanceTime = xssfRow.getCell(7);
+                XSSFCell offAttendanceTime = xssfRow.getCell(9);
                 log.info("offAttendanceTime = " + offAttendanceTime);
-                XSSFCell offAttendanceStatus = xssfRow.getCell(8);
+                XSSFCell offAttendanceStatus = xssfRow.getCell(10);
                 log.info("offAttendanceStatus = " + offAttendanceStatus);
 
                 dayDetailDTO.setName(getValue(name));
                 dayDetailDTO.setDepartment(getValue(department));
                 dayDetailDTO.setEmployeeId(getValue(employeeId));
-                dayDetailDTO.setDate(LocalDate.parse(getValue(date), DateHelper.formatter1));
+                dayDetailDTO.setDate(LocalDate.parse(getValue(date).split(" ")[0], DateHelper.formatter3));
                 dayDetailDTO.setIsHoliday(getValue(isHoliday).startsWith("正常") ? false : true);
+                if (getValue(isHoliday).startsWith("正常") && !holiday.containsKey(dayDetailDTO.getDate().format(DateHelper.formatter1))) {
+                    holiday.put(dayDetailDTO.getDate().format(DateHelper.formatter1), false);
+                } else if (getValue(isHoliday).startsWith("自由")  && holiday.containsKey(dayDetailDTO.getDate().format(DateHelper.formatter1))) {
+                    dayDetailDTO.setIsHoliday(holiday.get(dayDetailDTO.getDate().format(DateHelper.formatter1)));
+                }
                 if (StringUtils.isNotEmpty(getValue(onAttendanceTime))) {
-                    dayDetailDTO.setOnAttendanceTime(LocalTime.parse(getValue(onAttendanceTime), DateHelper.formatter2));
+                    dayDetailDTO.setOnAttendanceTime(LocalTime.parse(getValue(onAttendanceTime), DateHelper.formatter4));
                 }
 
-                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("还未打卡") ? "3" : getValue(onAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("假") ? "1" : dayDetailDTO.getOnAttendanceTime() == null ? "3" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
                 if (StringUtils.isNotEmpty(getValue(offAttendanceTime))) {
-                    dayDetailDTO.setOffAttendanceTime(LocalTime.parse(getValue(offAttendanceTime), DateHelper.formatter2));
+                    dayDetailDTO.setOffAttendanceTime(LocalTime.parse(getValue(offAttendanceTime).contains("次日 ") ? getValue(offAttendanceTime).replace("次日 ", "") : getValue(offAttendanceTime), DateHelper.formatter4));
                 }
-                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(offAttendanceStatus).contains("还未打卡") ? "3" : getValue(offAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("假") ? "1" : dayDetailDTO.getOffAttendanceTime() == null ? "3" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
                 log.info(dayDetailDTO.toString());
                 list.add(dayDetailDTO);
             }
@@ -173,12 +181,11 @@ public class ExcelHelper {
                     dayDetailDTO.setOnAttendanceTime(LocalTime.parse(getValue(onAttendanceTime), DateHelper.formatter2));
                 }
 
-                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("还未打卡")|| getValue(onAttendanceStatus).contains("缺卡") ? "3" : getValue(onAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOnStatus(getValue(onAttendanceStatus).contains("正常") ? "0" : getValue(onAttendanceStatus).contains("还未打卡") || getValue(onAttendanceStatus).contains("缺卡") ? "3" : getValue(onAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
                 if (StringUtils.isNotEmpty(getValue(offAttendanceTime))) {
-
-                    dayDetailDTO.setOffAttendanceTime(LocalTime.parse(getValue(offAttendanceTime).contains("次日 ")?getValue(offAttendanceTime).replace("次日 ",""):getValue(offAttendanceTime), DateHelper.formatter2));
+                    dayDetailDTO.setOffAttendanceTime(LocalTime.parse(getValue(offAttendanceTime).contains("次日 ") ? getValue(offAttendanceTime).replace("次日 ", "") : getValue(offAttendanceTime), DateHelper.formatter2));
                 }
-                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(offAttendanceStatus).contains("还未打卡")||getValue(offAttendanceStatus).contains("缺卡") ? "3" : getValue(offAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
+                dayDetailDTO.setOffStatus(getValue(offAttendanceStatus).contains("正常") ? "0" : getValue(offAttendanceStatus).contains("还未打卡") || getValue(offAttendanceStatus).contains("缺卡") ? "3" : getValue(offAttendanceStatus).contains("假") ? "1" : getValue(offAttendanceStatus).length() > 0 ? "2" : "4");
                 log.info(dayDetailDTO.toString());
                 list.add(dayDetailDTO);
             }
@@ -218,7 +225,7 @@ public class ExcelHelper {
 
 
     public static void main(String[] args) {
-        String fileName = "产品.xls";
+        String fileName = "2017-6/6月.xlsx";
         try {
             List<DayDetailDTO> result = readExcel(fileName);
             for (DayDetailDTO dayDetailDTO : result) {

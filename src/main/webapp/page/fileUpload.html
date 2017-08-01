@@ -1,0 +1,10 @@
+<div id="page-wrapper" class="gray-bg">
+    <label class="control-label">Select File</label>
+    <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true">
+</div>
+
+<script>
+$(document).on('ready', function() {
+    $("#input-2").fileinput({showCaption: false});
+});
+</script>

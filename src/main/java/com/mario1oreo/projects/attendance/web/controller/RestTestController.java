@@ -47,9 +47,12 @@ public class RestTestController {
     @ResponseBody
     public String saveAttendanceDetailExcel() {
         log.info("entry saveAttendanceDetailExcel!");
-        String fileName = "2017-6/20170627.xls";
+        String fileName = "2017-7/201707.xlsx";
         try {
+            long t1 = System.currentTimeMillis();
             List<DayDetailDTO> result = ExcelHelper.readExcel(fileName);
+            long t2 = System.currentTimeMillis();
+            log.info("read Excel finish! cost:{}s",(t2-t1)/1000);
             attendanceDetailServiceImpl.saveAttendanceDetailByDayList(result);
             Integer count = attendanceDetailServiceImpl.countAll();
             return "数据导入成功！共计:" + count;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 /**
@@ -26,25 +27,41 @@ public class ShowReportServiceImpl implements ShowReportService {
     private static DateTimeFormatter DF_YYYY_MM = DateTimeFormatter.ofPattern("yyyy-MM");
 
     @Override
-    public List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate) {
+    public List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate,boolean last) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
-            startDate = DF_YYYY_MM.format(LocalDate.now()) + "-01";
-//            startDate = "2017-06-01";
+            if (last) {
+                startDate = DF_YYYY_MM.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
+            } else {
+                startDate = DF_YYYY_MM.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+
+            }
         }
         if (StringUtils.isBlank(endDate) || StringUtils.isBlank(endDate.trim())) {
-            endDate = DF_YYYY_MM_DD.format(LocalDate.now());
+            if (last) {
+                endDate = DF_YYYY_MM_DD.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.lastDayOfMonth()));
+            } else {
+                endDate = DF_YYYY_MM_DD.format(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
+            }
         }
         return monthReportDAO.listMonthReport(startDate, endDate);
     }
 
     @Override
-    public List<ReportDetailDTO> listTotalReport(String startDate, String endDate) {
+    public List<ReportDetailDTO> listTotalReport(String startDate, String endDate,boolean last) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
-            startDate = DF_YYYY_MM.format(LocalDate.now()) + "-01";
-//            startDate = "2017-06-01";
+            if (last) {
+                startDate = DF_YYYY_MM.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
+            } else {
+                startDate = DF_YYYY_MM.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            }
         }
         if (StringUtils.isBlank(endDate) || StringUtils.isBlank(endDate.trim())) {
-            endDate = DF_YYYY_MM_DD.format(LocalDate.now());
+            if (last) {
+                endDate = DF_YYYY_MM_DD.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.lastDayOfMonth()));
+
+            } else {
+                endDate = DF_YYYY_MM_DD.format(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
+            }
         }
         return monthReportDAO.listTotalReport(startDate, endDate);
     }

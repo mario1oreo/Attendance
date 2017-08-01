@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -66,10 +67,10 @@ public class RestTestController {
 
     @RequestMapping("/showExceprtionAttendanceDetail")
     @ResponseBody
-    public List<ReportDetailDTO> showExceprtionAttendanceDetail(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate) {
+    public List<ReportDetailDTO> showExceprtionAttendanceDetail(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate,@RequestParam(defaultValue = "false") boolean last) {
         log.info("entry showExceprtionAttendanceDetail!");
 
-        List<ReportDetailDTO> result = showReportServiceImpl.listExceptionAttendance(startDate, endDate);
+        List<ReportDetailDTO> result = showReportServiceImpl.listExceptionAttendance(startDate, endDate,last);
         log.info("异常记录共计：{}",result.size());
         log.info("exit showExceprtionAttendanceDetail!");
         return result;
@@ -77,10 +78,10 @@ public class RestTestController {
 
     @RequestMapping("/listTotalReport")
     @ResponseBody
-    public List<ReportDetailDTO> listTotalReport(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate) {
+    public List<ReportDetailDTO> listTotalReport(@RequestParam(defaultValue = "") String startDate,@RequestParam(defaultValue = "") String endDate,@RequestParam(defaultValue = "false") boolean last) {
         log.info("entry listTotalReport!");
 
-        List<ReportDetailDTO> result = showReportServiceImpl.listTotalReport(startDate, endDate);
+        List<ReportDetailDTO> result = showReportServiceImpl.listTotalReport(startDate, endDate,last);
         log.info("异常记录共计：{}",result.size());
         log.info("exit listTotalReport!");
         return result;

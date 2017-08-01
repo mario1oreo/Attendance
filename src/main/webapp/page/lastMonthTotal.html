@@ -1,0 +1,53 @@
+
+
+    <div id="page-wrapper" class="gray-bg">
+        <table class="table table-bordered" id="showReport">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>部门名称</th>
+                <th>员工姓名</th>
+                <th>上午/下午</th>
+                <th>异常次数</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    onloadIndexPage();
+});
+function onloadIndexPage(){
+        console.log("onloadIndexPage!!!!");
+        $.ajax({
+             url: 'rest/listTotalReport',
+             type: 'POST',
+             dataType: 'json',
+             cache: false,
+             data:{"last":true},
+             success: function(data) {
+
+                 console.log("return succeed!");
+                 if (jQuery.isEmptyObject(data)) {
+                    return;
+                 }
+                 console.log("showExceprtionAttendanceDetail :"+JSON.stringify(data));
+                 var trHtml = '';
+                 $.each(data, function(index) {
+                    trHtml += '<tr>';
+                    trHtml += '<td>'+index+'</td>';
+                    trHtml += '<td>'+data[index].department+'</td>';
+                    trHtml += '<td>'+data[index].name+'</td>';
+                    trHtml += '<td>'+data[index].noon+'</td>';
+                    trHtml += '<td>'+data[index].times+'</td></tr>';
+                });
+                $('#showReport tbody').append(trHtml);
+             },
+             error: function() {
+                 //console.log(" showExceprtionAttendanceDetail error!");
+             }
+        });
+    };
+</script>

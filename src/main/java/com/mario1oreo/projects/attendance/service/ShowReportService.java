@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface ShowReportService {
 
-    List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate);
-    List<ReportDetailDTO> listTotalReport(String startDate, String endDate);
+    List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate,boolean last);
+    List<ReportDetailDTO> listTotalReport(String startDate, String endDate,boolean last);
 }

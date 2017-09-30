@@ -48,7 +48,7 @@ public class RestTestController {
     @ResponseBody
     public String saveAttendanceDetailExcel() {
         log.info("entry saveAttendanceDetailExcel!");
-        String fileName = "2017-7/201707.xlsx";
+        String fileName = "2017-9/9.xlsx";
         try {
             long t1 = System.currentTimeMillis();
             List<DayDetailDTO> result = ExcelHelper.readExcel(fileName);

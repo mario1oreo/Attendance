@@ -30,9 +30,9 @@ public class ShowReportServiceImpl implements ShowReportService {
     public List<ReportDetailDTO> listExceptionAttendance(String startDate, String endDate,boolean last) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
             if (last) {
-                startDate = DF_YYYY_MM.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
+                startDate = DF_YYYY_MM_DD.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
             } else {
-                startDate = DF_YYYY_MM.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+                startDate = DF_YYYY_MM_DD.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
 
             }
         }
@@ -50,9 +50,9 @@ public class ShowReportServiceImpl implements ShowReportService {
     public List<ReportDetailDTO> listTotalReport(String startDate, String endDate,boolean last) {
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(startDate.trim())) {
             if (last) {
-                startDate = DF_YYYY_MM.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
+                startDate = DF_YYYY_MM_DD.format(LocalDate.now().minusMonths(1L).with(TemporalAdjusters.firstDayOfMonth()));
             } else {
-                startDate = DF_YYYY_MM.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+                startDate = DF_YYYY_MM_DD.format(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
             }
         }
         if (StringUtils.isBlank(endDate) || StringUtils.isBlank(endDate.trim())) {

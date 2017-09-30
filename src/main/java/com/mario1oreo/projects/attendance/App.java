@@ -17,13 +17,12 @@ public class App extends SpringBootServletInitializer implements EmbeddedServlet
 
     @Override
     public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
-        configurableEmbeddedServletContainer.setPort(8080);
-        configurableEmbeddedServletContainer.setSessionTimeout(30000);
+        configurableEmbeddedServletContainer.setPort(18080);
     }
 
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(App.class);
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(App.class);
     }
 
     public static void main(String[] args) {
